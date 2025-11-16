@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapay Zeka Randevu Asistanı</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f6; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .chat-container { width: 90%; max-width: 600px; height: 80vh; background-color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
+        .chat-header { background-color: #4A90E2; color: white; padding: 15px; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .chat-box { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .message { padding: 10px 15px; border-radius: 18px; max-width: 75%; line-height: 1.5; }
+        .user-message { background-color: #E1F0FF; color: #333; align-self: flex-end; border-bottom-right-radius: 4px;}
+        .ai-message { background-color: #F1F1F1; color: #333; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .input-area { display: flex; border-top: 1px solid #ddd; padding: 10px; }
+        #user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 1em; outline: none; }
+        #send-btn { background-color: #4A90E2; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; font-size: 1.5em; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+        #send-btn:hover { background-color: #357ABD; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">AI Randevu Asistanı</div>
+        <div class="chat-box" id="chat-box">
+            <div class="message ai-message">Merhaba, ben randevu asistanınız. Size yardımcı olabilmem için lütfen şikayetinizi anlatır mısınız?</div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Şikayetinizi buraya yazın...">
+            <button id="send-btn">&#10148;</button>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        function addMessage(text, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', `${sender}-message`);
+            // AI mesajlarındaki **kalın** formatlamayı HTML'e çevir
+            messageElement.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function handleSend() {
+            const userText = userInput.value.trim();
+            if (userText === "") return;
+
+            addMessage(userText, 'user');
+            userInput.value = "";
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userText })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                addMessage(data.response, 'ai');
+
+            } catch (error) {
+                console.error("Error:", error);
+                addMessage("Üzgünüm, bir hata oluştu. Lütfen daha sonra tekrar deneyin.", 'ai');
+            }
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                handleSend();
+            }
+        });
+    </script>
+</body>
+</html>
