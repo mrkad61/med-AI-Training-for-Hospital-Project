@@ -9,7 +9,7 @@ BOLUM_ADI = "Beyin ve Sinir Cerrahisi"
 BASE_URL = "https://www.doktorsitesi.com/blog/sorular/beyin-ve-sinir-cerrahisi"
 
 BASLANGIC_SAYFASI = 1
-BITIS_SAYFASI = 450 # Test için 5'e düşürüldü. Çalışırsa 700 yaparsınız.
+BITIS_SAYFASI = 450
 
 # Her liste sayfası arasında bekleyeceğimiz min/max saniye
 LISTE_BEKLEME_MIN = 4
