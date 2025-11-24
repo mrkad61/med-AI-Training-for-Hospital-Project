@@ -5,15 +5,15 @@ import time
 import random
 
 # --- 1. AYARLAR BÖLÜMÜ ---
-BOLUM_ADI = "Dermatoloji"
-BASE_URL = "https://www.doktorsitesi.com/blog/sorular/dermatoloji"
+BOLUM_ADI = "Kadın Hastalıkları ve Doğum"
+BASE_URL = "https://www.doktorsitesi.com/blog/sorular/kadin-hastaliklari-ve-dogum"
 
-BASLANGIC_SAYFASI = 101
-BITIS_SAYFASI = 400
+BASLANGIC_SAYFASI = 1
+BITIS_SAYFASI = 500
 
 # Her liste sayfası arasında bekleyeceğimiz min/max saniye
-LISTE_BEKLEME_MIN = 4
-LISTE_BEKLEME_MAX = 8
+LISTE_BEKLEME_MIN = 1
+LISTE_BEKLEME_MAX = 2
 
 # Her bir soru detayına girerken bekleyeceğimiz min/max saniye
 DETAY_BEKLEME_MIN = 1
