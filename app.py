@@ -14,7 +14,7 @@ print("Hugging Face modeli yüklendi.")
 
 # Gemini API anahtarını yapılandır
 try:
-    genai.configure(api_key="AIzaSyCmdHkyp72rluXNTiZb4TiZgrnqAt0AZFk")
+    genai.configure(api_key="GEMİNİ_API_KEY_BURAYA")
     gemini_model = genai.GenerativeModel('gemini-pro')
     print("Gemini modeli başarıyla yapılandırıldı.")
 except Exception as e:
